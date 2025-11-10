@@ -11,6 +11,7 @@ use crate::{
 use asynchronous_codec::BytesMut;
 use bytes::BufMut;
 use enumflags2::{bitflags, BitFlags};
+use tracing::info;
 
 #[derive(Debug, Clone)]
 pub struct TokenColMetaData<'a> {
@@ -27,7 +28,7 @@ impl<'a> Display for MetaDataColumn<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let name = self.col_name.replace("]", "]]");
         write!(f, "[{}] ", name)?;
-
+        info!("Column name: [{}]", name);
         match &self.base.ty {
             TypeInfo::FixedLen(fixed) => match fixed {
                 FixedLenType::Int1 => write!(f, "tinyint")?,
